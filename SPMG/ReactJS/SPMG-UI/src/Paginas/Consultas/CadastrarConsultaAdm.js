@@ -1,4 +1,5 @@
 import {React, Component } from 'react'
+import '../../css/Cadastroadm.css'
 
 class CadastroAdm extends Component {     
     constructor(props) {
@@ -24,7 +25,7 @@ class CadastroAdm extends Component {
 
         console.log('fazendo chamada de api para medicos')
 
-        fetch('http://localhost:5000'), {
+        fetch('http://localhost:5000/Medicos'), {
 
             headers: {
                 'Authorization': 'Bearer ' +localStorage.getItem('usuario-login')

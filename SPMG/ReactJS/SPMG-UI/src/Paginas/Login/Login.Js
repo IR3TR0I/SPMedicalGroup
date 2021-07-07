@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { parseJwt, usuarioAutenticado } from '../../services/auth';
+import '../../css/Login.css'
 
 class Login extends Component {
     constructor(props) {

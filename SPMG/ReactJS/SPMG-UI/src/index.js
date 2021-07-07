@@ -1,13 +1,13 @@
-import React from 'react-dom';
+import React from 'react';
 import { Route, BrowserRouter as Router, Switch, Redirect} from 'react-router-dom'
-import { parseJwt, usuarioAutenticado } from './services/auth';
+import { parseJwt, usuarioAutenticado } from './services/auth.js';
 
 
 
 
 import Home from './Paginas/home/Home';
 import Login from './Paginas/Login/Login.Js';
-import CadastrarConsulta from './Paginas/Consultas/CadastrarConsultaAdm';
+import CadastrarConsultaAdm from './Paginas/Consultas/CadastrarConsultaAdm';
 import ListarConsultasPaciente from './Paginas/Consultas/ListarConsultasPaciente'
 import ListarConsultasMedico from './Paginas/Consultas/ListarConsultasMedico'
 import NotFound from './Paginas/Notfound/NotFound';
@@ -37,7 +37,7 @@ const routing = (
       <Switch>
         <Route exact path="/" component = {Home} /> 
         <Route path="/login" component = {Login} />
-        <Route path="/CadastrarConsulta" component= {CadastrarConsulta}/>
+        <Route path="/CadastrarConsultaAdm" component= {CadastrarConsultaAdm}/>
         <Route path="/ListarConsultasMedico" component={ListarConsultasMedico}/>
         <Route path="/ListarConsultasPaciente" component={ListarConsultasPaciente}/>
         <Route exact path="/notfound" component={NotFound}/>

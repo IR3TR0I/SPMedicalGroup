@@ -1,6 +1,6 @@
 import { React, Component } from 'react'
 import axios from 'axios'
-
+import '../../css/ListaConsultasMedico.css'
 
 class ListagemMed extends Component {
 
@@ -17,7 +17,7 @@ class ListagemMed extends Component {
             idpaciente: 0,
             idsituacao: 0,
             data: new Date(),
-            descricaoMed: '',  // só faltando acertar a inserção de descrição!
+            descricaoMed: '',  
             isLoading: false
         }
 
@@ -82,10 +82,9 @@ class ListagemMed extends Component {
     BuscarSituacaoPorId = (consulta) => {
 
 
-        document.getElementById('pop-up-situacao').style.display = 'block'   // pop-up
+        document.getElementById('pop-up-situacao').style.display = 'block'   
 
-
-        this.setState({     // nome do state : nome da propriedade do banco de dados
+        this.setState({     
 
             idConsultaAlterada: consulta.idConsulta,
             idmedico: consulta.idMedico,
@@ -112,10 +111,10 @@ class ListagemMed extends Component {
     BuscarDescricaoPorId = (consulta) => {
 
 
-        document.getElementById('pop-up-descricao').style.display = 'block'   // pop-up
+        document.getElementById('pop-up-descricao').style.display = 'block'   
 
 
-        this.setState({     // nome do state : nome da propriedade do banco de dados
+        this.setState({     
 
             idConsultaAlterada: consulta.idConsulta,
             idmedico: consulta.idMedico,
@@ -151,7 +150,7 @@ class ListagemMed extends Component {
                     method: 'PUT',
                     body: JSON.stringify({      
 
-                        // propriedades do domain Consulta
+                        
 
                         idMedico: this.state.idmedico,
                         idPaciente: this.state.idpaciente,

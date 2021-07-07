@@ -8,12 +8,14 @@ namespace Senai.SPMGMobile.WebApi.Interrfaces
 {
     interface IUsuarioRepository
     {
-        Usuario Login(string email, string senha);
+        List<Usuario> Listar();
 
-        List<Usuario> Lista();
-        Usuario BuscarId(int id);
-        void Cadastro(Usuario NovoUser);
+        Usuario BuscarPorId();
+
+        void Cadastrar(Usuario novoUsuario);
+
+        void Atualizar(int id, Usuario usuarioAtualizado);
+
         void Deletar(int id);
-        void Atualizar(int id, Usuario NovoUser);
     }
 }

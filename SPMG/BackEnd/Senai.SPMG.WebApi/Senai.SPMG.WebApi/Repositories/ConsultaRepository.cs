@@ -9,106 +9,60 @@ using System.Threading.Tasks;
 
 namespace Senai.SPMGMobile.WebApi.Repositories
 {
-    public class ConsultaRepository
+    public class ConsultaRepository : IConsultaRepository
     {
+
         SpMedGroupContext ctx = new SpMedGroupContext();
-
-        public void Atualizar(int id, Consulta NovaConsulta)
+        public void Atualizar(int id, Consulta consultaAtualizada)
         {
-            Consulta ConBuscada = ctx.Consultas.Find(id);
+            Consulta consultaBuscada = ctx.Consultas.Find(id);
 
-            if (NovaConsulta.Descricao != null)
+            if(consultaAtualizada.Consulta != null)
             {
-                ConBuscada.Descricao = NovaConsulta.Descricao;
+                consultaBuscada.nomeConsulta = consultaAtualizada.NomeConsultas;
             }
 
-            ctx.Consultas.Update(ConBuscada);
-            ctx.SaveChanges();
+            if (consultaAtualizada.IdConsulta != null)
+            {
+                consultaBuscada.IdConsulta = consultaAtualizada.IdConsulta;
+            }
+
+            if (consultaAtualizada.IdConsulta > 0)
+            {
+                consultaBuscada.IdConsulta = consultaAtualizada.IdConsulta;
+            }
+
+            if (consultaAtualizada. == true || consultaAtualizada. == false)
+            {
+                consultaBuscada. = consultaAtualizada.;
+            }
         }
 
-        public Consulta BuscarId(int id)
+        public Consulta BuscarporId(int Id)
         {
-            return ctx.Consultas.FirstOrDefault(e => e.IdConsulta == id);
+            return ctx.Consultas.FirstOrDefault(e => e.IdConsulta == Id);
         }
 
-        public void Cadastrar(Consulta NovoConsulta)
+        public void Cadastrar(Consulta novaConsulta)
         {
-            ctx.Consultas.Add(NovoConsulta);
+            ctx.Consultas.Add(novaConsulta);
+
             ctx.SaveChanges();
         }
 
         public void Deletar(int id)
         {
-            Consulta ConBuscada = ctx.Consultas.Find(id);
-            ctx.Consultas.Remove(ConBuscada);
+            ctx.Consultas.Remove(BuscarporId(id));
+
             ctx.SaveChanges();
         }
 
-
-        public List<Consulta> ListarCon()
-        {
-            return ctx.Consultas.ToList();
-        }
-
-        public List<Consulta> ListarTudo()
+        public List<Consulta> Listar()
         {
             return ctx.Consultas
-                .Include(e => e.IdPacienteNavigation)
-                .Include(e => e.IdMedicoNavigation)
-                .Include(e => e.IdSituacaoNavigation)
-                .ToList();
-        }
 
-        public List<Consulta> MedicoCon(int id)
-        {
-            Medico MedBuscado = ctx.Medicos.FirstOrDefault(e => e.IdUsuario == id);
-
-            return ctx.Consultas
-               .Include(e => e.IdPacienteNavigation)
-               .Include(e => e.IdSituacaoNavigation)
-               .Where(e => e.IdMedico == MedBuscado.IdMedico)
-               .ToList();
-        }
-
-        public List<Consulta> MinhasCon(int id)
-        {
-            Paciente PacBuscado = ctx.Pacientes.FirstOrDefault(e => e.IdUsuario == id);
-
-            return ctx.Consultas
-                .Include(e => e.IdMedicoNavigation)
-                .Include(e => e.IdMedicoNavigation.IdClinicaNavigation)
-                .Include(e => e.IdMedicoNavigation.IdEspecialidadeNavigation)
-                .Include(e => e.IdSituacaoNavigation)
-                .Where(e => e.IdPaciente == PacBuscado.IdPaciente)
-                .ToList();
-        }
-
-        public void Status(int id, string status)
-        {
-            Consulta consulta = ctx.Consultas
-                .FirstOrDefault(e => e.IdConsulta == id);
-
-            switch (status)
-            {
-                case "1":
-                    consulta.IdSituacao = 1;
-                    break;
-
-                case "2":
-                    consulta.IdSituacao = 2;
-                    break;
-
-                case "3":
-                    consulta.IdSituacao = 3;
-                    break;
-
-                default:
-                    consulta.IdSituacao = consulta.IdSituacao;
-                    break;
-            }
-
-            ctx.Consultas.Update(consulta);
-            ctx.SaveChanges();
+            .ToList();
+            
         }
     }
 }

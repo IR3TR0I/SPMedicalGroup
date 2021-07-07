@@ -19,56 +19,8 @@ namespace Senai.SPMGMobile.WebApi.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private new IUsuarioRepository User { get; set; }
-
-        public LoginController()
-        {
-            User = new UsuarioRepository();
-        }
-
-        [HttpPost("Login")]
-        public IActionResult Login(Usuario login)
-        {
-            try
-            {
-                Usuario Login = User.Login(login.Email, login.Senha);
-
-                if (Login == null)
-                {
-                    return NotFound("Usuario ou senha incorretos");
-                }
-
-                var Claims = new[]
-                {
-                    new Claim(JwtRegisteredClaimNames.Email, Login.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, Login.IdUsuario.ToString()),
-                    new Claim(ClaimTypes.Role, Login.IdTipoUsuario.ToString()),
-                    new Claim("role", Login.IdTipoUsuario.ToString()),
-                    new Claim("nameUser", Login.Email)
-                };
-
-                var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("Medical-chave-autenticacao"));
-                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-                var token = new JwtSecurityToken
-                    (
-                        issuer: "MedGrup.webApi",
-                        audience: "MedGrup.webApi",
-                        claims: Claims,
-                        expires: DateTime.Now.AddMinutes(10),
-                        signingCredentials: creds
-                    );
-
-                return Ok(
-                        new { token = new JwtSecurityTokenHandler().WriteToken(token) }
-                    );
-
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
+        
+        
     }
 }
 

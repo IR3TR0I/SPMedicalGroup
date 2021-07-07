@@ -9,9 +9,11 @@ namespace Senai.SPMGMobile.WebApi.Interrfaces
     interface ITipoUsuarioRepository
     {
         List<TiposUsuario> Listar();
-        List<TiposUsuario> ListarUser();
-        void Cadastrar(TiposUsuario NovoTipo);
-        void Deletar(int id);
-        void Atualizar(int id, TiposUsuario NovoTipo);
+
+        TiposUsuario BuscarPorId(int id);
+
+        void Cadastrar(TiposUsuario novoTipoUsuario);
+
+        void Atualizar(int id, TiposUsuario tiposUsuarioAtualizado);
     }
 }

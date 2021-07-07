@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\moniq\\Desktop\\BackEnd\\Senai.SPMGMobile.WebApi\\Senai.SPMGMobile.WebApi\\Senai.SPMGWebApi.csproj": {}
+    "C:\\Users\\46732305824\\Desktop\\SPMedicalGroup\\SPMG\\BackEnd\\Senai.SPMG.WebApi\\Senai.SPMG.WebApi\\Senai.SPMGWebApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\moniq\\Desktop\\BackEnd\\Senai.SPMGMobile.WebApi\\Senai.SPMGMobile.WebApi\\Senai.SPMGWebApi.csproj": {
+    "C:\\Users\\46732305824\\Desktop\\SPMedicalGroup\\SPMG\\BackEnd\\Senai.SPMG.WebApi\\Senai.SPMG.WebApi\\Senai.SPMGWebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\moniq\\Desktop\\BackEnd\\Senai.SPMGMobile.WebApi\\Senai.SPMGMobile.WebApi\\Senai.SPMGWebApi.csproj",
+        "projectUniqueName": "C:\\Users\\46732305824\\Desktop\\SPMedicalGroup\\SPMG\\BackEnd\\Senai.SPMG.WebApi\\Senai.SPMG.WebApi\\Senai.SPMGWebApi.csproj",
         "projectName": "Senai.SPMGWebApi",
-        "projectPath": "C:\\Users\\moniq\\Desktop\\BackEnd\\Senai.SPMGMobile.WebApi\\Senai.SPMGMobile.WebApi\\Senai.SPMGWebApi.csproj",
-        "packagesPath": "C:\\Users\\moniq\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\moniq\\Desktop\\BackEnd\\Senai.SPMGMobile.WebApi\\Senai.SPMGMobile.WebApi\\obj\\",
+        "projectPath": "C:\\Users\\46732305824\\Desktop\\SPMedicalGroup\\SPMG\\BackEnd\\Senai.SPMG.WebApi\\Senai.SPMG.WebApi\\Senai.SPMGWebApi.csproj",
+        "packagesPath": "C:\\Users\\46732305824\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\46732305824\\Desktop\\SPMedicalGroup\\SPMG\\BackEnd\\Senai.SPMG.WebApi\\Senai.SPMG.WebApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\moniq\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\46732305824\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -97,7 +97,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }
