@@ -11,105 +11,88 @@ using System.Threading.Tasks;
 
 namespace Senai.SPMGMobile.WebApi.Controllers
 {
-    //Resposta da API em formato JSON
     [Produces("application/json")]
-    //Rota: http://localhost:5000/api/tiposUsuarios
     [Route("api/[controller]")]
-    //Controlador API
     [ApiController]
-
-    //Acesso apenas ao adm
-    [Authorize(Roles = "1")]
     public class TiposUsuariosController : ControllerBase
     {
-        private ITiposUsuariosRepository _tiposUsuarioRepository {get ; set; }
+        private ITipoUsuarioRepository Tipo { get; set; }
 
         public TiposUsuariosController()
         {
-            _tiposUsuarioRepository = new TiposUsuarioRepository();
+            Tipo = new TipoUsuarioRepository();
         }
 
-
+        [Authorize(Roles = "3")]
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Listar()
         {
             try
             {
-                //Retorna a requisição e chama o método
-                return Ok(_tiposUsuarioRepository.Listar());
+                return Ok(Tipo.Listar());
             }
-            catch (Exception Erro)
+            catch (Exception ex)
             {
-                
-                return BadRequest(Erro);
+                return BadRequest(ex);
             }
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        [Authorize(Roles = "3")]
+        [HttpGet("Lista")]
+        public IActionResult ListarUser()
         {
             try
             {
-                //Retorna a requisição e chama o método
-                return Ok(_tiposUsuarioRepository.BuscarPorId());
+                return Ok(Tipo.ListarUser());
             }
-            catch (Exception Erro)
+            catch (Exception ex)
             {
-                
-                return BadRequest(Erro);
+                return BadRequest(ex);
             }
         }
 
+        [Authorize(Roles = "3")]
         [HttpPost]
-        public IActionResult Post(TiposUsuario novoTipoUsuario)
+        public IActionResult Cadastrar(TiposUsuario NovoTipo)
         {
             try
             {
-                //Retorna a requisição e chama o método
-                _tiposUsuarioRepository.Cadastrar(novoTipoUsuario);
-                
-                //retornar Status Code 201
+                Tipo.Cadastrar(NovoTipo);
                 return StatusCode(201);
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                
-                return BadRequest(Ex);
+                return BadRequest(ex);
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, TiposUsuario tipoUsuarioAtualizado)
-        {
-            try
-            {
-                //Retorna a requisição e chama o método
-                _tiposUsuarioRepository.Atualizar(id,tipoUsuarioAtualizado);
-                //retornar status code 204
-                return StatusCode(204);
-            }
-            catch (Exception Erro)
-            {
-                
-                return BadRequest(Erro);
-            }
-        }
-
+        [Authorize(Roles = "3")]
         [HttpDelete("{id}")]
-        public IActionResult GetById(int id)
+        public IActionResult Deletar(int id)
         {
             try
             {
-                //Retorna a requisição e chama o método de deletar por Id
-                _tiposUsuarioRepository.Deletar(id);
-
-                //retornar um 204
+                Tipo.Deletar(id);
                 return StatusCode(204);
             }
-            catch (Exception Erro)
+            catch (Exception ex)
             {
-                
-                return BadRequest(Erro);
+                return BadRequest(ex);
+            }
+        }
+
+        [Authorize(Roles = "3")]
+        [HttpPut("{id}")]
+        public IActionResult Atualizar(int id, TiposUsuario NovoTipo)
+        {
+            try
+            {
+                Tipo.Atualizar(id, NovoTipo);
+                return StatusCode(204);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
             }
         }
     }

@@ -12,88 +12,46 @@ namespace Senai.SPMGMobile.WebApi.Repositories
     {
         SpMedGroupContext ctx = new SpMedGroupContext();
 
-
-        public void Atualizar(int id, Usuario usuarioAtualizado)
+        public void Atualizar(int id, Usuario NovoUser)
         {
-            Usuario usuarioBuscado = ctx.Usuarios.Find(id);
+            Usuario UserBuscado = ctx.Usuarios.Find(id);
 
-            if(UsuarioAtualizado.Email != null)
+            if (NovoUser.Email != null)
             {
-                usuarioBuscado.Email = usuarioAtualizado.Email;
+                UserBuscado.Email = NovoUser.Email;
             }
-
-            if(usuarioAtualizado.Senha != null)
-            {
-                UsuarioBuscado.Senha = usuarioAtualizado.Senha;
-            }
-
-            if(usuarioAtualizado.IdTipoUsuario >0 )
-            {
-                usuarioBuscado.IdTipoUsuario = usuarioAtualizado.IdTipoUsuario;
-            }
-
-            ctx.Usuarios.Update(UsuarioBuscado);
-
+            ctx.Usuarios.Update(UserBuscado);
             ctx.SaveChanges();
         }
 
-        public Usuario BuscarPorId(int id)
+        public Usuario BuscarId(int id)
         {
-            return ctx.Usuarios
-                .Select(u => new Usuario() 
-                { 
-                    IdUsuario = u.IdUsuario,
-                    NomeUsuario = u.NomeUsuario,
-                    Email = u.Email,
-                    IdTipoUsuario = u.IdTipoUsuario,
-
-                    IdTipoUsuarioNavigation = new TiposUsuario()
-                    {
-                        IdTipoUsuario = u.IdTipoUsuarioNavigation.IdTipoUsuario,
-                        TituloTipoUsuario = u.IdTipoUsuarioNavigation.TituloTipoUsuario
-                    }
-                })
-                .FirstOrDefault(u => u.IdUsuario == id);
+            return ctx.Usuarios.FirstOrDefault(e => e.IdUsuario == id);
         }
 
-        public void Cadastrar(Usuario novousuario)
+        public void Cadastro(Usuario NovoUser)
         {
-            ctx.Usuarios.Add(novousuario);
-
+            ctx.Add(NovoUser);
             ctx.SaveChanges();
         }
 
         public void Deletar(int id)
         {
-            ctx.Usuarios.Remove(BuscarPorId(id));
-
+            Usuario UserBuscado = ctx.Usuarios.Find(id);
+            ctx.Usuarios.Remove(UserBuscado);
             ctx.SaveChanges();
         }
 
-
-        public List<Usuario> Listar()
+        public List<Usuario> Lista()
         {
-            return ctx.Usuarios
-            .Select(u => new Usuario() 
-            { 
-                IdUsuario = u.IdUsuario,
-                NomeUsuario = u.NomeUsuario,
-                Email = u.Emai,
-                IdTipoUsuario = u.IdTipoUsuario,
-
-                IdTipoUsuarioNavigation = new TiposUsuario()
-                {
-                    IdTipoUsuario = u.IdTipoUsuarioNavigatio.IdTipoUsuario,
-                    TituloTipoUsuario = u.IdTipoUsuarioNavigation.TituloTipoUsuario
-                }
-            })
-            .ToList();        
+            return ctx.Usuarios.ToList();
         }
 
-        public Usuario Login(String email, string senha)
+        public Usuario Login(string email, string senha)
         {
-            return ctx.Usuarios.FirstOrDefault(u => u.Email == email && u.Senha == senha);
+            return ctx.Usuarios.FirstOrDefault(e => e.Email == email && e.Senha == senha);
         }
+
     }
 }
 

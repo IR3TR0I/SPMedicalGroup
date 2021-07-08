@@ -14,82 +14,61 @@ using System.Threading.Tasks;
 
 namespace Senai.SPMGMobile.WebApi.Controllers
 {
-    //controller de login
-    //Resposta em JSON
     [Produces("application/json")]
-    //Rota: http://localhost:5000/api/Login
     [Route("api/[controller]")]
-    //Controlador API
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private IUsuarioRepository _usuarioRepository {get; set;}
+        private new IUsuarioRepository User { get; set; }
 
         public LoginController()
         {
-            _usuarioRepository = new UsuarioRepository();
+            User = new UsuarioRepository();
         }
 
-        [HttpPost]
-        public IActionResult Post(LoginViewModel login)
+        [HttpPost("Login")]
+        public IActionResult Login(Usuario login)
         {
             try
             {
-                Usuario usuarioBuscado = _usuarioRepository.Login(login.Email, login.Senha);
+                Usuario Login = User.Login(login.Email, login.Senha);
 
-                if (usuarioBuscado == null)
+                if (Login == null)
                 {
-                    return NotFound("Seu E-mail ou senha estão Inválidos!");
+                    return NotFound("Usuario ou senha incorretos");
                 }
-
 
                 var Claims = new[]
                 {
-                    // e-mail do usuário autenticado
-                    new Claim(JwtRegisteredClaimNames.Email, usuarioBuscado.Email),
-
-                    // ID do usuário autenticado
-                    new Claim(JwtRegisteredClaimNames.Jti, usuarioBuscado.IdUsuario.ToString()),
-
-                    // tipo de usuário que foi autenticado (Administrador ou Comum)
-                    new Claim(ClaimTypes.Role, usuarioBuscado.IdTipoUsuario.ToString()),
-
-                    //  tipo de usuário que foi autenticado (Administrador ou Comum) de forma personalizada
-                    new Claim("role", usuarioBuscado.IdTipoUsuario.ToString()),
-
-                    // nome do usuário que foi autenticado
-                    new Claim(JwtRegisteredClaimNames.Name, usuarioBuscado.NomeUsuario)
+                    new Claim(JwtRegisteredClaimNames.Email, Login.Email),
+                    new Claim(JwtRegisteredClaimNames.Jti, Login.IdUsuario.ToString()),
+                    new Claim(ClaimTypes.Role, Login.IdTipoUsuario.ToString()),
+                    new Claim("role", Login.IdTipoUsuario.ToString()),
+                    new Claim("nameUser", Login.Email)
                 };
-                //token
-                var key = new SymmetricSecuritykey(System.Text.Encoding.UTF8.GetBytes("spmg-Chave-autenticação"));
-                //header
-                var creds = new SigningCredentials(key,SecurityAlgorithms.HmacSha256);
 
-                //gerando o Token
-                var Token = new JwtSecurityToken(
-                    //Emissor
-                    issuer: "Spmed.webApi",
-                    //destino do Token
-                    audience: "Spmed.webApi",
-                    //todos os dados que foram definidos nas claims
-                    Claims: Claims,
-                    //Tempo para o token Expirar
-                    expires: DateTime.Now.AddMinutes(30),
-                    //credencias do Token 
-                    signingCredentials:creds
-                );
+                var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("Medical-chave-autenticacao"));
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-                //Retonar OK Junto ao token
-                return Ok(new{
-                    Token = new JwtSecurityTokenHandler().writeToken(Token)
-                });
+                var token = new JwtSecurityToken
+                    (
+                        issuer: "MedGrup.webApi",
+                        audience: "MedGrup.webApi",
+                        claims: Claims,
+                        expires: DateTime.Now.AddMinutes(10),
+                        signingCredentials: creds
+                    );
+
+                return Ok(
+                        new { token = new JwtSecurityTokenHandler().WriteToken(token) }
+                    );
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex);
             }
         }
-        
     }
 }
 

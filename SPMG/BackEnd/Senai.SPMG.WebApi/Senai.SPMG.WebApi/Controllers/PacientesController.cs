@@ -11,47 +11,87 @@ using System.Threading.Tasks;
 
 namespace Senai.SPMGMobile.WebApi.Controllers
 {
-    //controller de pacientes
-    //Resposta em JSON
     [Produces("application/json")]
-    //Rota: http://localhost:5000/api/Pacientes
     [Route("api/[controller]")]
-    //Controlador API
     [ApiController]
     public class PacientesController : ControllerBase
     {
-        private IPacienteRepository _pacienteRepository {get; set; }
+        private IPacienteRepository Pac { get; set; }
 
         public PacientesController()
         {
-            _pacienteRepository = new PacientesRepository();
-        }        
+            Pac = new PacienteRepository();
+        }
 
+        [Authorize(Roles = "3")]
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Listar()
         {
             try
             {
-                return Ok(_pacienteRepository.Listar());
+                return Ok(Pac.Listar());
             }
-            catch (Exception erro)
+            catch (Exception ex)
             {
-                
-                return BadRequest(erro);
+                return BadRequest(ex);
             }
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        [Authorize(Roles = "3")]
+        [HttpGet("Tudo")]
+        public IActionResult ListarTudo()
         {
             try
             {
-                return Ok(_pacienteRepository.BuscarPorId(id));
+                return Ok(Pac.ListarTudo());
             }
-            catch (Exception erro)
+            catch (Exception ex)
             {
-                
-                return BadRequest(erro);
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Cadastro(Paciente NovoPac)
+        {
+            try
+            {
+                Pac.Cadastrar(NovoPac);
+                return StatusCode(201);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [Authorize(Roles = "2")]
+        [HttpDelete("{id}")]
+        public IActionResult Deletar(int id)
+        {
+            try
+            {
+                Pac.Deletar(id);
+                return StatusCode(204);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [Authorize(Roles = "2")]
+        [HttpPut("{id}")]
+        public IActionResult Atualizar(int id, Paciente NovoPac)
+        {
+            try
+            {
+                Pac.Atualizar(id, NovoPac);
+                return StatusCode(204);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
             }
         }
     }

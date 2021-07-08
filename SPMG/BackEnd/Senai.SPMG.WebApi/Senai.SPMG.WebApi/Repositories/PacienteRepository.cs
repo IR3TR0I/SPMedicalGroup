@@ -12,28 +12,53 @@ namespace Senai.SPMGMobile.WebApi.Repositories
     public class PacienteRepository : IPacienteRepository
     {
         SpMedGroupContext ctx = new SpMedGroupContext();
-        public Paciente BuscarPorId(int id)
+
+        public void Atualizar(int id, Paciente NovoPac)
         {
-            return ctx.Pacientes.FirstOrDefault(i => i.IdPaciente == id);
+            Paciente PacBuscado = ctx.Pacientes.Find(id);
+
+            if (NovoPac.NomePaciente != null)
+            {
+                PacBuscado.NomePaciente = NovoPac.NomePaciente;
+            }
+
+            if (NovoPac.Telefone != null)
+            {
+                PacBuscado.Telefone = NovoPac.Telefone;
+            }
+
+            ctx.Pacientes.Update(PacBuscado);
+            ctx.SaveChanges();
         }
 
-        public void Cadastrar(Paciente novoPaciente)
+        public Paciente BuscarId(int id)
         {
-            ctx.Pacientes.Add(novoPaciente);
+            return ctx.Pacientes.FirstOrDefault(e => e.IdPaciente == id);
+        }
 
+        public void Cadastrar(Paciente NovoPac)
+        {
+            ctx.Pacientes.Add(NovoPac);
             ctx.SaveChanges();
         }
 
         public void Deletar(int id)
         {
-           ctx.Pacientes.Remove(BuscarPorId(id));
-
-           ctx.SaveChanges();
+            Paciente PacBuscado = ctx.Pacientes.Find(id);
+            ctx.Pacientes.Remove(PacBuscado);
+            ctx.SaveChanges();
         }
 
         public List<Paciente> Listar()
         {
             return ctx.Pacientes.ToList();
+        }
+
+        public List<Paciente> ListarTudo()
+        {
+            return ctx.Pacientes
+                .Include(e => e.Consulta)
+                .ToList();
         }
     }
 

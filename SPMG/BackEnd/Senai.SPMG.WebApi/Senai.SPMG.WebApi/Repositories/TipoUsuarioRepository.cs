@@ -12,44 +12,42 @@ namespace Senai.SPMGMobile.WebApi.Repositories
     public class TipoUsuarioRepository : ITipoUsuarioRepository
     {
         SpMedGroupContext ctx = new SpMedGroupContext();
-        public void Atualizar(int id, TiposUsuario tiposUsuarioAtualizado)
+
+        public void Atualizar(int id, TiposUsuario NovoTipo)
         {
-            TiposUsuario tipoUsuarioBuscado = ctx.TiposUsuarios.Find(id);
+            TiposUsuario TipoBuscado = ctx.TiposUsuarios.Find(id);
 
-                if (tiposUsuarioAtualizado.TituloTipoUsuario != null)
-	            {
-                    tipoUsuarioBuscado.TituloTipoUsuario = tiposUsuarioAtualizado.TituloTipoUsuario;
-	            }
+            if (NovoTipo.TituloTipoUsuario != null)
+            {
+                TipoBuscado.TituloTipoUsuario = NovoTipo.TituloTipoUsuario;
+            }
 
-                ctx.TiposUsuarios.Update(tipoUsuarioBuscado);
-
-                ctx.SaveChanges();
+            ctx.TiposUsuarios.Update(TipoBuscado);
+            ctx.SaveChanges();
         }
 
-        public TiposUsuario BuscarPorId(int id)
+        public void Cadastrar(TiposUsuario NovoTipo)
         {
-            return ctx.TiposUsuarios.FirstOrDefault(tu => tu.IdTipoUsuario == id);
-        }
-
-        public void Cadastrar(TiposUsuario novoTipoUsuario)
-        {
-            ctx.TiposUsuarios.Add(novoTipoUsuario);
-
+            ctx.TiposUsuarios.Add(NovoTipo);
             ctx.SaveChanges();
         }
 
         public void Deletar(int id)
         {
-            TiposUsuario tiposUsuarioBuscado = ctx.TiposUsuarios.Find(id);
-
-            ctx.TiposUsuarios.Remove(tiposUsuarioBuscado);
-
+            TiposUsuario TipoBuscado = ctx.TiposUsuarios.Find(id);
+            ctx.TiposUsuarios.Remove(TipoBuscado);
             ctx.SaveChanges();
         }
 
         public List<TiposUsuario> Listar()
         {
             return ctx.TiposUsuarios.ToList();
+        }
+
+        public List<TiposUsuario> ListarUser()
+        {
+            return ctx.TiposUsuarios.
+                Include(e => e.Usuarios).ToList();
         }
     }
 }
