@@ -14,22 +14,42 @@ namespace Senai.SPMGMobile.WebApi.Repositories
         SpMedGroupContext ctx = new SpMedGroupContext();
         public void Atualizar(int id, TiposUsuario tiposUsuarioAtualizado)
         {
-            throw new NotImplementedException();
+            TiposUsuario tipoUsuarioBuscado = ctx.TiposUsuarios.Find(id);
+
+                if (tiposUsuarioAtualizado.TituloTipoUsuario != null)
+	            {
+                    tipoUsuarioBuscado.TituloTipoUsuario = tiposUsuarioAtualizado.TituloTipoUsuario;
+	            }
+
+                ctx.TiposUsuarios.Update(tipoUsuarioBuscado);
+
+                ctx.SaveChanges();
         }
 
         public TiposUsuario BuscarPorId(int id)
         {
-            throw new NotImplementedException();
+            return ctx.TiposUsuarios.FirstOrDefault(tu => tu.IdTipoUsuario == id);
         }
 
         public void Cadastrar(TiposUsuario novoTipoUsuario)
         {
-            throw new NotImplementedException();
+            ctx.TiposUsuarios.Add(novoTipoUsuario);
+
+            ctx.SaveChanges();
+        }
+
+        public void Deletar(int id)
+        {
+            TiposUsuario tiposUsuarioBuscado = ctx.TiposUsuarios.Find(id);
+
+            ctx.TiposUsuarios.Remove(tiposUsuarioBuscado);
+
+            ctx.SaveChanges();
         }
 
         public List<TiposUsuario> Listar()
         {
-            throw new NotImplementedException();
+            return ctx.TiposUsuarios.ToList();
         }
     }
 }

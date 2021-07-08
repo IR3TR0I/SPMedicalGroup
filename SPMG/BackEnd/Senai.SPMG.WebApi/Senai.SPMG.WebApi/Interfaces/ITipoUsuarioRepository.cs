@@ -15,5 +15,7 @@ namespace Senai.SPMGMobile.WebApi.Interrfaces
         void Cadastrar(TiposUsuario novoTipoUsuario);
 
         void Atualizar(int id, TiposUsuario tiposUsuarioAtualizado);
+
+        void Deletar(int id);
     }
 }
