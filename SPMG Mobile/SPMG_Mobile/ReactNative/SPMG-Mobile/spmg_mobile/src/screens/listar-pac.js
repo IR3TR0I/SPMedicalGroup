@@ -24,7 +24,7 @@ class Paciente extends Component {
 
         const valorToken = await AsyncStorage.getItem('userToken')
 
-        const resposta = await api.get('/consultas/paclist', {
+        const resposta = await api.get('/Consulta/Paciente', {
 
             headers: {
                 'Authorization': 'Bearer ' + valorToken

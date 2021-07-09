@@ -20,7 +20,7 @@ class CadastroAdm extends Component {
         }
     }
     
-    //Medicos
+    Medicos
     BuscarMedicos = () => {
 
         console.log('fazendo chamada de api para medicos')

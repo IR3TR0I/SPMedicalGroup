@@ -2,85 +2,69 @@
 Use Sp_MedicalGroup;
 Go
 
-Select * From Clinica
+-- Lista todos os tipos de usuário cadastrados
+select * from tipoUsuario;
 
-SELECT * FROM TiposUsuarios;
+-- Lista todos os usuários cadastrados
+select * from Usuario;
 
-SELECT * FROM Usuarios;
+-- Lista todas as especialidades cadastradas
+select * from especialidade;
 
-SELECT * FROM Pacientes;
+-- Lista a clinica que foi cadastrada
+select * from clinica;
 
-SELECT * FROM Especialidades;
+-- Lista todos os medicos cadastrados
+select * from medico;
+select * from Paciente;
+select * from Usuario;
+-- Lista todos os pacientes cadastrados
+select * from paciente;
 
-SELECT * FROM Medicos;
+-- Lista as situacoes cadastradas
+select * from situacao;
 
-SELECT * FROM Situacao;
+-- Lista todas as consultas cadastradas
+select * from consulta;
 
-SELECT * FROM Consultas;
+-- Seleciona os dados dos usuarios mostrando o tipo do usuario
+select idUsuario, tituloTipoUsuario, email from Usuario
+inner join tipoUsuario
+on  usuario.idTipoUsuario = tipoUsuario.idTipoUsuario;
 
--- mostra todos os tipos de usuários na tabela de usuários
-SELECT idUsuario,
-	   tituloTipoUsuario [Tipo de Usuário],
-	   email
-FROM Usuarios
-INNER JOIN TiposUsuarios
-ON TiposUsuarios.idTipoUsuario = Usuarios.idTipoUsuario
+--Seleciona os nomes dos medicos que trabalham na clinica
+select nomeMedico, nomeFantasia from consulta
+inner join medico
+on consulta.idMedico = medico.idMedico
+inner join clinica
+on medico.idClinica = clinica.idClinica;
 
--- exibe os dados dos médicos mostrando qual clínica em que trabalha cada médico e
--- a especialidade de cada médico
-SELECT idMedico,
-	   nomeMedico [Médico],
-	   tituloEspecialidade Especialidade,
-	   nomeClinica [Clínica],
-	   crm CRM
-FROM Medicos M
-INNER JOIN Especialidades E
-ON M.idEspecialidade = E.idEspecialidade
-INNER JOIN Clinica C
-ON M.idClinica = C.idClinica;
+-- Seleciona os dados dos pacientes, medicos a data da consulta, a area que o medico trabalha, situacao da consulta, horario que a clinica abre e fecha e o nome da mesma
+select nomePaciente, nomeMedico, dataConsulta, nomeEspecialidade as especialidade, situacao, horarioAbertura [HorarioAberturaClinica], horarioFechamento[HorarioFechamentoClinica], nomeFantasia[nomeClinica] from consulta
+inner join medico
+on consulta.idMedico = medico.idMedico
+inner join paciente
+on consulta.idPaciente = paciente.idPaciente
+inner join especialidade
+on medico.idEspecialidade = especialidade.idEspecialidade
+inner join situacao
+on consulta.idSituacao = situacao.idSituacao
+inner join clinica
+on medico.idClinica = clinica.idClinica;
 
--- mostra os dados das consultas já agendadas
--- o médico poderá incluir a descrição da consulta que estará vinculada ao paciente
-SELECT nomePaciente Paciente,
-	   nomeMedico Médico,
-	   descricaoSituacao [Situação],
-	   dataConsulta [Data da Consulta],
-	   descricao [Descrição]
-FROM Consultas C
-INNER JOIN Pacientes P
-ON C.idPaciente = P.idPaciente
-INNER JOIN Medicos M
-ON C.idMedico = M.idMedico
-INNER JOIN Situacao S
-ON C.idSituacao = S.idSituacao
-WHERE S.idSituacao = 1;
+-- Seleciona o nome do medico e a especialidade
+select nomeMedico, nomeEspecialidade from medico
+inner join especialidade
+on medico.idEspecialidade = especialidade.idEspecialidade;
 
--- médico pode ver as consultas (agendamentos) que são relacionadas a ele
-SELECT nomePaciente Paciente,
-	   nomeMedico Médico,
-	   descricaoSituacao Situação,
-	   dataConsulta [Data da Consulta],
-	   descricao [Descrição]
-FROM Consultas C
-INNER JOIN Pacientes P
-ON C.idPaciente = P.idPaciente
-INNER JOIN Medicos M
-ON C.idMedico = M.idMedico
-INNER JOIN Situacao S
-ON C.idSituacao = S.idSituacao
-WHERE C.idMedico = 3;
+-- Busca um usuário através do seu e-mail e senha
+select tituloTipoUsuario[Permissao], email from Usuario
+inner join tipoUsuario
+on usuario.idTipoUsuario = tipoUsuario.idTipoUsuario
+where email = 'adm@adm.com' and senha = 'adm123';
 
--- o paciente visualizara as suas próprias consultas
-SELECT nomePaciente Paciente,
-	   nomeMedico Médico,
-	   descricaoSituacao Situação,
-	   dataConsulta [Data da Consulta],
-	   descricao [Descrição]
-FROM Consultas C
-INNER JOIN Pacientes P
-ON C.idPaciente = P.idPaciente
-INNER JOIN Medicos M
-ON C.idMedico = M.idMedico
-INNER JOIN Situacao S
-ON C.idSituacao = S.idSituacao
-WHERE P.idPaciente = 7;
+-- Converte a data de nascimento para PT-BR
+SELECT nomePaciente AS Nomes, FORMAT (dataNascimento, 'd', 'pt-br') from paciente;
+
+-- Seleciona os nomes dos pacientes e mostra a idade através da data de nascimento
+SELECT paciente.nomePaciente, paciente.dataNascimento,DATEDIFF(YEAR, paciente.dataNascimento,GETDATE()) AS IdadeAtual FROM paciente;

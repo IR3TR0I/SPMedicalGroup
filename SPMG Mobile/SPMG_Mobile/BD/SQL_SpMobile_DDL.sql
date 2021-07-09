@@ -7,71 +7,82 @@ Go
 
 --Criando Tabelas
 
-Create Table Clinica (
-	IdClinica INT PRIMARY KEY IDENTITY,
-	nomeClinica Varchar(200) UNIQUE NOT NULL,
-	cnpj Char(60) UNIQUE NOT NULL,
-	razaoSocial VARCHAR(100) not null,
-	horarioAbre Time,
-	horarioFecha Time,
+create table tipoUsuario
+(
+	idTipoUsuario int primary key identity
+	,tituloTipoUsuario varchar (200) unique not null
 );
-Go
+go
 
-Create Table TiposUsuarios (
-	IdTipoUsuario INT PRIMARY KEY IDENTITY,
-	tituloTipoUsuario VARCHAR(100) UNIQUE NOT NULL,
+create table Usuario
+(
+	idUsuario int primary key identity
+	,idTipoUsuario int foreign key references tipoUsuario(idTipoUsuario)
+	,email varchar (150) unique not null
+	,senha varchar (100) not null
+
 );
-Go
+go
 
-Create Table Especialidades (
-	IdEspecialidade INT PRIMARY KEY IDENTITY,
-	tituloEspecialidade VARCHAR(100) UNIQUE NOT NULL,
+create table especialidade
+(
+	idEspecialidade int primary key identity
+	,nomeEspecialidade varchar (100) unique not null
 );
-Go
+go
 
-Create Table Situacao (
-	IdSituacao INT PRIMARY KEY IDENTITY,
-	descricaoSituacao VARCHAR(100) UNIQUE NOT NULL
+create table Clinica
+(
+	idClinica int primary key identity
+	,CNPJ char (14) unique
+	,horarioAbertura time not null
+	,horarioFechamento time not null
+	,endereco varchar (200) unique not null
+	,nomeFantasia varchar (100) unique not null
+	,razaoSocial varchar (150) unique not null
 );
-Go
+go
 
-Create Table Usuarios (
-	IdUsuario INT PRIMARY KEY IDENTITY,
-	IdTipoUsuario INT FOREIGN KEY REFERENCES TiposUsuarios(IdTipoUsuario),
-	email VarCHAR(100) UNIQUE NOT NULL,
-	Senha VARCHAR(50) NOT NULL
+create table medico
+(
+	idMedico int primary key identity
+	,idUsuario int foreign key references Usuario(idUsuario)
+	,idEspecialidade int foreign key references especialidade(idEspecialidade)
+	,idClinica int foreign key references clinica(idClinica)
+	,nomeMedico varchar (100) not null
+	,CRM varchar (50) unique not null
 );
-Go
+go
 
 
-Create Table Pacientes (
-	IdPaciente INT PRIMARY KEY IDENTITY,
-	IdUsuario INT FOREIGN KEY References Usuarios(IdUsuario),
-	nomePaciente VARCHAR(100) NOT NULL,
-	dataNascimento DATE Not NULL,
-	Telefone VARCHAR(40) NOT NULL,
-	rg CHAR(30) UNIQUE NOT NULL,
-	cpf CHAR(50) UNIQUE NOT NULL,
-	endereco VARCHAR(200)
+
+create table paciente
+(
+	idPaciente int primary key identity
+	,idUsuario int foreign key references Usuario(idUsuario)
+	,dataNascimento date not null
+	,nomePaciente varchar (100) not null
+	,RG char (9) unique not null
+	,CPF char (11) unique not null
+	,telefone varchar (11) 
+	,endereco varchar (100) unique not null
 );
-Go
+go
 
-Create Table Medicos (
-	IdMedico INT PRIMARY KEY IDENTITY,
-	IdClinica INT FOREIGN KEY REFERENCES Clinica (IdClinica),
-	IdEspecialidade INT FOREIGN KEY REFERENCES Especialidades(IdEspecialidade),
-	IdUsuario INT FOREIGN KEY REFERENCES Usuarios(IdUsuario),
-	nomeMedico VARCHAR(100) NOT NULL,
-	crm VARCHAR(40) UNIQUE NOT NULL
+create table situacao
+(
+	idSituacao int primary key identity
+	,situacao varchar(30) not null
 );
-Go
+go
 
-Create Table Consultas (
-	IdConsulta INT PRIMARY KEY IDENTITY,
-	IdMedico INT FOREIGN KEY REFERENCES Medicos(IdMedico),
-	IdPaciente INT FOREIGN KEY REFERENCES Pacientes(IdPaciente),
-	IdSituacao INT FOREIGN KEY REFERENCES Situacao(IdSituacao),
-	dataConsulta Date NOT NULL,
-	descricao TEXT NOT NULL
+create table consulta
+(
+	idConsulta int primary key identity
+	,idMedico int foreign key references medico(idMedico)
+	,idPaciente int foreign key references paciente(idPaciente)
+	,idSituacao int foreign key references situacao(idSituacao)
+	,dataConsulta datetime not null
+	,descricao varchar (150) default ('Descrição não informada')
 );
-Go
+go

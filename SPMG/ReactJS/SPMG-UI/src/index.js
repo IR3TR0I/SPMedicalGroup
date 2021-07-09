@@ -16,11 +16,11 @@ import reportWebVitals from './reportWebVitals';
 
 
 
-//constante para ver se o usúario pode entrar nas paginas que apenas o adm pode
+//função para ver se o usúario pode entrar nas paginas que apenas o adm pode
 const PermissaoAdm = ({ component : Component }) => (
   <Route
     render = {props =>
-      usuarioAutenticado() && parseJwt().role === "3" ?
+      usuarioAutenticado() && parseJwt().role === "1" ?
       //verifica se o usuário que logou é um adm
       <Component {...props} /> :
       //caso não, Volta pra página de Login

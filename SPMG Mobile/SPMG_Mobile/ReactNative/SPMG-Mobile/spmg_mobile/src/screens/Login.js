@@ -35,7 +35,7 @@ class Login extends Component {
 
             console.warn(token)
 
-            await AsyncStorage.setItem('userToken', token)
+            await AsyncStorage.setItem('userLogin', token)
 
             this.props.navigation.navigate('Main')
 

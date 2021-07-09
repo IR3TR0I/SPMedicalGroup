@@ -24,7 +24,7 @@ class Médico extends Component {
 
         const valorToken = await AsyncStorage.getItem('userToken')
 
-        const resposta = await api.get('/consultas/medlist', {
+        const resposta = await api.get('/Consulta', {
 
             headers: {
                 'Authorization': 'Bearer ' + valorToken
